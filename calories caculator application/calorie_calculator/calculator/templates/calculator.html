@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calorie Calculator</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <h1>Calorie Calculator</h1>
+    <form method="POST">
+        {% csrf_token %}
+        
+        <!-- Weight Input -->
+        <label for="id_weight">{{ form.weight.label }}</label>
+        {{ form.weight }} {{ form.weight_unit }}
+        <br>
+
+        <!-- Height Input -->
+        <div class="height-container">
+            <label for="id_height">{{ form.height.label }}</label>
+            {{ form.height }}
+            
+            <!-- Feet and Inches Input -->
+            <div class="feet-inches">
+                <label for="id_feet">{{ form.feet.label }}</label>
+                {{ form.feet }}
+                <label for="id_inches">{{ form.inches.label }}</label>
+                {{ form.inches }}
+            </div>
+        </div>
+        
+        <!-- Height Unit Selection in a new row -->
+        <div class="height-unit-container">
+            <label for="id_height_unit">{{ form.height_unit.label }}</label>
+            <select name="height_unit" id="id_height_unit">
+                {% for choice in form.height_unit.field.choices %}
+                    <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <br>
+
+        <!-- Age Input -->
+        <label for="id_age">{{ form.age.label }}</label>
+        {{ form.age }}
+        <br>
+
+        <!-- Gender Input -->
+        <label for="id_gender">{{ form.gender.label }}</label>
+        {{ form.gender }}
+        <br>
+
+        <!-- Activity Level Input -->
+        <label for="id_activity">{{ form.activity.label }}</label>
+        {{ form.activity }}
+        <br>
+
+        <button type="submit">Calculate</button>
+    </form>
+
+    {% if calories %}
+        <h2>Your maintenance calories are approximately {{ calories|floatformat:0 }} calories per day.</h2>
+    {% endif %}
+</body>
+</html>
